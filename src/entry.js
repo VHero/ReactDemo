@@ -2,9 +2,8 @@
 'use strict';
 
 //引入样式文件
-// import './styles/app.scss';
-import './styles/main.scss';
+import './styles/app.scss';
+
 
 //引入组件
-// import './components/App.js';
-import './components/GalleryByReactApp.js';
+import './components/App.js';

@@ -1,7 +1,6 @@
-
 'use strict';
 
-var ExtractTextPlugin = require("extract-text-webpack-plugin");  //css单独打包
+var ExtractTextPlugin = require("extract-text-webpack-plugin"); //css单独打包
 
 module.exports = {
     devtool: 'eval-source-map',
@@ -14,23 +13,24 @@ module.exports = {
 
     module: {
         loaders: [
-            { test: /\.js$/, loader: "jsx!babel", include: /src/},
-            { test: /\.css$/, loader: ExtractTextPlugin.extract("style", "css!postcss")},
-            { test: /\.scss$/, loader: ExtractTextPlugin.extract("style", "css!postcss!sass")},
-            { test: /\.(png|jpg)$/, loader: 'url?limit=8192'}
+            { test: /\.js$/, loader: "jsx!babel", include: /src/ },
+            { test: /\.css$/, loader: ExtractTextPlugin.extract("style", "css!postcss") },
+            { test: /\.scss$/, loader: ExtractTextPlugin.extract("style", "css!postcss!sass") },
+            { test: /\.(png|jpg)$/, loader: 'url?limit=8192' },
+            { test: /\.json$/, loader: 'json-loader' },
         ]
     },
 
     postcss: [
-        require('autoprefixer')    //调用autoprefixer插件,css3自动补全
+        require('autoprefixer') //调用autoprefixer插件,css3自动补全
     ],
 
     devServer: {
         // contentBase: './src/views'  //本地服务器所加载的页面所在的目录
         port: 8888,
-        colors: true,  //终端中输出结果为彩色
-        historyApiFallback: true,  //不跳转
-        inline: true  //实时刷新
+        colors: true, //终端中输出结果为彩色
+        historyApiFallback: true, //不跳转
+        inline: true //实时刷新
     },
 
     plugins: [

@@ -6,6 +6,21 @@ import ReactDom from 'react-dom';
 
 import { Router, Route, hashHistory } from 'react-router';
 
+//获取图片相关的数据
+var imageDatas=require ('../data/imageDatas.json');
+
+//自执行函数
+imageDatas=(function getImageURL(imageDataArr){
+    for(let i=0,j=imageDataArr.length;i<j;i++){
+        let singleImage= imageDataArr[i];
+        singleImage.imageURL='../images/'+singleImage.fileName;
+        // singleImage.imageURL=require(singleImage.imageURL);
+        imageDataArr[i]=singleImage;
+    }
+    return imageDataArr;
+})(imageDatas)
+
+
 class App extends React.Component{
     render(){
         return(
@@ -15,7 +30,7 @@ class App extends React.Component{
                 <div><a href="#/list">list page1</a></div>
                 <div><a href="#/detail">detail page1</a></div>
                 <div><a href="#/muke">detail page1</a></div>
-
+                <div><a href="#/gallery">图片墙1</a></div>
             </div>
         );
     }
@@ -129,7 +144,41 @@ class DialogCom extends React.Component{
         )
     }
 }
+//图片墙
+class Gallery extends React.Component{
+    constructor(props){
+        super(props);
+    }
+    render(){
+        return (
+            <div>
+                <GalleryByReactApp  />
+            </div>
+        )
 
+    }
+}
+class GalleryByReactApp extends React.Component{
+    constructor(props){
+        super(props);
+    }
+
+    render(){
+        return (
+            // <div className="main">
+            //     <ReactTransitionGroup transitionName="fade">
+            //         <img src={imageURL} alt=""/>
+            //         <span>Hello</span>
+            //     </ReactTransitionGroup>
+            // </div>
+            <section className="stage">
+                <section className="img-sec"></section>
+                <nav className="controller-nav"></nav>
+            </section>
+
+        )
+    }
+}
 class AppRouter extends React.Component{
     render(){
         return(
@@ -137,7 +186,8 @@ class AppRouter extends React.Component{
                 <Route path='/' component={App}></Route>
                 <Route path='/list' component={List} />
                 <Route path='/detail' component={Detail} />
-                 <Route path='/muke' component={Muke} />
+                <Route path='/muke' component={Muke} />
+                <Route path='/gallery' component={Gallery}></Route>
             </Router>
         );
     }
