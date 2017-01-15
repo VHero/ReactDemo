@@ -8,7 +8,6 @@ import { Router, Route, hashHistory } from 'react-router';
 
 //获取图片相关的数据
 var imageDatas=require ('../data/imageDatas.json');
-
 //自执行函数
 imageDatas=(function getImageURL(imageDataArr){
     for(let i=0,j=imageDataArr.length;i<j;i++){
@@ -158,22 +157,35 @@ class Gallery extends React.Component{
 
     }
 }
+class ImgFigure extends React.Component{
+    render(){
+
+        return (
+            <figure className="img-figure">
+                <img src={this.props.data.imageURL} alt={this.props.data.desc}/>
+                <figcation>
+                    <h2>{this.props.data.title}</h2>
+                </figcation>
+            </figure>
+        )
+    }
+}
 class GalleryByReactApp extends React.Component{
+
     constructor(props){
         super(props);
     }
 
     render(){
+        var controllerUnits=[],
+            imgFigures=[];
+        imageDatas.forEach(function(value,index){
+            imgFigures.push(<ImgFigure data={value} key={index}/>);
+        })
         return (
-            // <div className="main">
-            //     <ReactTransitionGroup transitionName="fade">
-            //         <img src={imageURL} alt=""/>
-            //         <span>Hello</span>
-            //     </ReactTransitionGroup>
-            // </div>
             <section className="stage">
-                <section className="img-sec"></section>
-                <nav className="controller-nav"></nav>
+                <section className="img-sec">{imgFigures}</section>
+                <nav className="controller-nav">{controllerUnits}</nav>
             </section>
 
         )
