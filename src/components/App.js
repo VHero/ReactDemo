@@ -5,7 +5,7 @@ import React from 'react';
 import ReactDom from 'react-dom';
 
 import { Router, Route, hashHistory } from 'react-router';
-
+import {createStore} from 'redux';
 //获取图片相关的数据
 var imageDatas=require ('../data/imageDatas.json');
 //自执行函数
@@ -30,6 +30,7 @@ class App extends React.Component{
                 <div><a href="#/detail">detail page1</a></div>
                 <div><a href="#/muke">detail page1</a></div>
                 <div><a href="#/gallery">图片墙1</a></div>
+                <div><a href="#/redux">Redux例子</a></div>
             </div>
         );
     }
@@ -191,6 +192,78 @@ class GalleryByReactApp extends React.Component{
         )
     }
 }
+/*Redux的例子*/
+class ReduxContainer extends React.Component{
+    render(){
+        return (
+            <div>
+                <ReduxDemo />
+            </div>
+            )
+
+    }
+}
+var addTodoAction=function(text){
+    return {
+        type:'add_todo',
+        text:text
+    }
+}
+var todoReducer=function(state,action){
+    if(typeof state==='undefined'){
+        return [];
+    }
+    switch(action.type){
+        case 'add_todo':
+            return state.slice(0).concat({
+                text:action.text,
+                completed:false
+            });
+            break;
+        default:
+            return state;
+    }
+}
+var store=createStore(todoReducer);
+var ReduxDemo=React.createClass({
+    getInitialState:function(){
+        return {
+            items:store.getState()
+        }
+    },
+    componentDidMount:function(){
+        var unsubscribe = store.subscribe(this.onChange);
+    },
+    onChange:function(){
+        this.setState({
+            items:store.getState()
+        });
+    },
+    handleAdd:function(){
+        var input = ReactDom.findDOMNode(this.refs.todo);
+        var value=input.value.trim();
+
+        if(value){
+            store.dispatch(addTodoAction(value));
+        }
+        input.value='';
+    },
+    render:function(){
+        return (
+            <div>
+                <input type="text" ref="todo" placeholder="输入todo项" style={{marginRight:"10px"}}/>
+                <button onClick={this.handleAdd}>点击添加</button>
+                <ul>
+                    {
+                        this.state.items.map(function(item,index){
+                            return <li key={index}>{item.text}</li>
+                        })
+                    }
+                </ul>
+            </div>
+        )
+    }
+})
 class AppRouter extends React.Component{
     render(){
         return(
@@ -200,6 +273,7 @@ class AppRouter extends React.Component{
                 <Route path='/detail' component={Detail} />
                 <Route path='/muke' component={Muke} />
                 <Route path='/gallery' component={Gallery}></Route>
+                <Route path='/redux' component={ReduxContainer}></Route>
             </Router>
         );
     }
